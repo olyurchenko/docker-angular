@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  width: 100%;
+}
+
+.todo-input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}

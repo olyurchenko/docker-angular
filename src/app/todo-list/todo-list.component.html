@@ -1,0 +1,10 @@
+<app-todo-input [(ngModel)]="newTask"></app-todo-input>
+<button (click)="addTask()">Додати задачу</button>
+
+@if (todoService.tasks().length) {
+<div class="list">
+  @for ( task of todoService.tasks(); track idx; let idx = $index) {
+  <app-todo-item [task]="task" (remove)="removeTask(idx)"> </app-todo-item>
+  }
+</div>
+}
