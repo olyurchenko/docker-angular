@@ -20,6 +20,6 @@ describe('TodoInputComponent', () => {
 
   it('should update value on input', () => {
     component.writeValue('Test');
-    expect(component.value).toBe('123');
+    expect(component.value).toBe('Test');
   });
 });
