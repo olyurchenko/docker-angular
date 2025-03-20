@@ -17,6 +17,7 @@ export class TodoListComponent {
   constructor(public todoService: TodoService) {}
 
   addTask() {
+    console.log(13);
     if (this.newTask.trim()) {
       this.todoService.addTask(this.newTask.trim());
       this.newTask = '';
