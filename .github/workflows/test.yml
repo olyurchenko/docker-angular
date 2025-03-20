@@ -31,4 +31,4 @@ jobs:
         run: docker build -t oleksiiyurchenko/docker-front-end-test -f Dockerfile.test .
 
       - name: Run Angular tests in Docker
-        run: docker run --rm -e CI=true oleksiiyurchenko/docker-front-end-test npm run test
+        run: docker run --rm -e CI=true oleksiiyurchenko/docker-front-end-test
