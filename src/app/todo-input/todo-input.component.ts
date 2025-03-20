@@ -39,6 +39,7 @@ export class TodoInputComponent implements ControlValueAccessor {
   }
 
   registerOnTouched(fn: () => void) {
+    console.log(123);
     this.onTouched = fn;
   }
 }
