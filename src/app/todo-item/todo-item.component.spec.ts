@@ -20,8 +20,8 @@ describe('TodoItemComponent', () => {
   });
 
   it('should emit remove event', () => {
-    spyOn(component.remove, 'emit');
+    const spy = jest.spyOn(component.remove, 'emit');
     component.remove.emit();
-    expect(component.remove.emit).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalled();
   });
 });

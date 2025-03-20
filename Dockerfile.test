@@ -1,11 +1,56 @@
-FROM node:lts-alpine
+FROM --platform=linux/amd64 ubuntu:noble
 
-WORKDIR /app
+# Встановлення базового ПЗ
+RUN apt-get update -y \
+    && apt-get install -y \
+    apt-utils \
+    bash \
+    libfreetype6-dev \
+    libmcrypt-dev \
+    libbz2-dev \
+    libxslt-dev \
+    libldap2-dev \
+    git \
+    wget \
+    openssh-client \
+    ca-certificates \
+    curl \
+    gnupg \
+    build-essential \
+    software-properties-common \
+    locales locales-all \
+    openssl \
+    jq \
+    unattended-upgrades
 
-COPY package.json .
+# Встановлення Node.js та npm
+ENV NODE_MAJOR=20 \
+    PATH=$PATH:/opt/node/bin
 
-RUN npm i
+WORKDIR /opt/node
 
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+
+RUN echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list
+
+RUN apt-get update -y \
+    && apt-get install -y nodejs
+
+# Встановлення Google Chrome
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+    && apt install -y ./google-chrome-stable_current_amd64.deb \
+    && rm -f google-chrome-stable_current_amd64.deb
+
+# Встановлення Angular CLI
+RUN npm install -g @angular/cli@18
+
+# Копіюємо код додатку
+WORKDIR /usr/src/app
 COPY . .
 
-CMD ["npm", "run", "test"]
+# Встановлення залежностей
+RUN npm install
+
+# Запуск тестів
+CMD ["npm", "run", "test", "--", "--watch=false", "--browsers=ChromeHeadless"]
