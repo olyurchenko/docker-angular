@@ -1,7 +1,7 @@
 name: Check
 on: push
 jobs:
-  link:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -11,10 +11,18 @@ jobs:
       - name: Lint
         run: npm run lint
   test:
+    #need used to create chain so test will not start until lint pass
+    needs: [lint]
+    strategy:
+      matrix:
+        version: [18, 19, 20]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{matrix.version}}
       - name: Install deps
         run: npm ci
       - name: Test
