@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  forwardRef,
-  viewChild,
-} from '@angular/core';
+import { Component, ElementRef, forwardRef, viewChild } from '@angular/core';
 import {
   ControlValueAccessor,
   FormsModule,
@@ -26,9 +20,9 @@ import {
   imports: [FormsModule],
 })
 export class TodoInputComponent implements ControlValueAccessor {
-  value: string = '';
-  onChange: (value: string) => void = () => {};
-  onTouched: () => void = () => {};
+  value = '';
+  onChange!: (value: string) => void;
+  onTouched!: () => void;
   input = viewChild<ElementRef<HTMLInputElement>>('input');
   writeValue(value: string) {
     this.value = value ?? '';

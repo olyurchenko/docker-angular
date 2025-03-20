@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { TodoService } from '../core/services/todo.service';
 import { TodoInputComponent } from '../todo-input/todo-input.component';
 import { TodoItemComponent } from '../todo-item/todo-item.component';
-import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -13,7 +12,7 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent {
-  newTask: string = '';
+  newTask = '';
 
   constructor(public todoService: TodoService) {}
 

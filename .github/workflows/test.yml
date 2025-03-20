@@ -8,15 +8,27 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run linters
+        run: npm run lint
 
       - name: Login to Docker Hub
         run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker image for testing
-        run: docker build -t oleksiiyurchenko/docker-angular-test:latest -f Dockerfile.test .
+        run: docker build -t oleksiiyurchenko/docker-front-end-test -f Dockerfile.test .
 
       - name: Run Angular tests in Docker
-        run: docker run --rm -e CI=true oleksiiyurchenko/docker-angular-test:latest
+        run: docker run --rm -e CI=true oleksiiyurchenko/docker-front-end-test npm run test
